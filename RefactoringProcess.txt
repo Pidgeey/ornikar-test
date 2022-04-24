@@ -1,0 +1,32 @@
+Après un rapide coup d'oeil, j'ai remarqué que la méthode computeText était effectivement à refactoriser:
+- Des conditions compliquées à lire, certaines inutiles
+- Des conditions avec la fonction "str_pos" guère utile et systématique
+- Des noms de variables non standards (Underscore, Upparcase) et non parlantes ($usefulObject)
+- Mauvaise identation à certains endroits
+Le fait que le nombre de conditions s'allongent en plus en plus montrent bien que du code a été rajouté à plusieurs
+reprises.
+
+J'ai donc commencé par réecrire la plupart des conditions mais je me suis rapidement rendu compte que la solution
+n'était pas la bonne car elle ne part pas dans un sens évolutif. Cette solution aurait simplement permis de réecrire
+du code pour le rendre plus lisible.
+
+J'ai donc pris le choix de partir sur une solution évolutive avec un tableau contenant les différents attributs à
+remplacer dans le text courant. Si d'autres attributes devaient être ajouté à un text, il suffira donc simplement
+d'ajouter l'attribut dans le tableau avec sa valeur correspondante.
+J'ai décidé de répertorier les attributs directement dans la méthode afin d'avoir la logique à un seul endroit.
+Le mieux, dans un environnement réel/projet, serait de placer ce tableau dans un fichier de configuration qui serait,
+si nécessaire, accessible dans d'autres fichiers. Ex: Mail, Sms, etc..
+
+Dans ma réecriture, j'ai remarqué que l'objet "Lesson" était requis pour le bon fonctionnement de la méthode
+"computeText", j'ai donc décidé de mettre en place une validation de celui ci en amont dans la méthode
+"getTemplateComputed" car ci aucun object Lesson n'est présent, inutile de continuer le script. J'en ai profité pour
+également définir le "$user" au même endroit. De plus, le fait d'avoir déplacer ces deux vérifications de code me
+permettent de bien distinguer les différentes actions de chacunes des deux méthodes. La méthode "computeText" à
+maintenant pour unique fonction de remplacer les bouts de textes correspondants.
+
+J'ai également supprimé la condition permettant de déclencher un throw si aucun template n'était présent. Vu le typage
+requis dans la méthode "getTemplateComputed", nul besoin de vérification plus bas car si aucun template n'est présent,
+php se chargera de throw lui même.
+J'en ai également profité pour vérifier le __construct de Template afin de m'assurer que les attributs de classe
+"subject" et "content" étaient bien obligatoire afin de m'assurer que les accesseurs appellés dans la méthode
+"getTemplateComputed" ne poserai pas de soucis.

@@ -19,13 +19,13 @@ class Lesson
         $this->end_time = $end_time;
     }
 
-    public static function renderHtml(Lesson $lesson): string
+    public function renderHtml(): string
     {
-        return '<p>' . $lesson->id . '</p>';
+        return '<p>' . $this->id . '</p>';
     }
 
-    public static function renderText(Lesson $lesson): string
+    public function renderText(): string
     {
-        return (string) $lesson->id;
+        return (string) $this->id;
     }
 }

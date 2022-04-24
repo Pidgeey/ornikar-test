@@ -60,8 +60,8 @@ class TemplateManager
 
         $textAttributes = [
             "lesson:instructor_link" => 'instructors/' . $instructorOfLesson->id .'-'.urlencode($instructorOfLesson->firstname),
-            'lesson:summary_html' => Lesson::renderHtml($lesson),
-            'lesson:summary' => Lesson::renderText($lesson),
+            'lesson:summary_html' => $lesson->renderHtml(),
+            'lesson:summary' => $lesson->renderText(),
             'lesson:instructor_name' => $instructorOfLesson->firstname,
             'lesson:meeting_point' => $meetingPoint->name,
             'lesson:start_date' => $lesson->start_time->format('d/m/Y'),
